@@ -1,0 +1,273 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Poster Palace | Interactive Gallery</title>
+    <style>
+        /* --- Setup & Variables --- */
+        :root {
+            --bg-color: #2c3e50; /* Dark blue background */
+            --header-bg: #1f2b38;
+            --frame-color: #ecf0f1; /* Light frame color */
+            --text-color: #ecf0f1;
+            --accent-color: #e67e22; /* Orange accent */
+            --shadow-effect: rgba(0, 0, 0, 0.5);
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            overflow-x: hidden; /* Prevent horizontal scrollbar */
+        }
+
+        /* --- Parallax Header --- */
+        .site-header {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 60vh;
+            background-image: url('https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=1200&q=80'); /* Replace with your own header image */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* This creates the parallax effect */
+            text-align: center;
+            color: white;
+        }
+
+        .header-overlay {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .header-content h1 {
+            margin: 0;
+            font-size: 4rem;
+            font-weight: 900;
+            text-shadow: 0 5px 15px var(--shadow-effect);
+        }
+
+        /* --- Gallery Section --- */
+        .gallery-section {
+            padding: 4rem 0;
+            overflow: hidden; /* Hide overflowing posters */
+        }
+
+        .gallery-section h2 {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        
+        .gallery-instructions {
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+            color: var(--text-color);
+            opacity: 0.7;
+        }
+
+        /* --- Draggable Poster Grid --- */
+     .poster-grid {
+    display: inline-flex;
+    gap: 40px;
+    padding: 20px 40px;
+    user-select: none;
+    cursor: grab;
+    white-space: nowrap;
+}
+
+.gallery-section {
+    text-align: center; /* This centers the inline-flex grid */
+}
+
+
+        .poster-grid:active {
+            cursor: grabbing;
+        }
+
+        /* --- Poster Styling & 3D Hover --- */
+        .poster {
+            flex-shrink: 0;
+            width: 350px;
+            background: var(--frame-color);
+            border: 15px solid var(--frame-color);
+            box-shadow: 0 10px 30px -5px var(--shadow-effect);
+            position: relative;
+            transition: transform 0.1s;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .poster img {
+            width: 100%;
+            display: block;
+            pointer-events: none; /* So hover works on poster div */
+        }
+        
+        .poster .spotlight {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, transparent 80px, rgba(0,0,0,0.85) 200px);
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+
+        .poster:hover .spotlight {
+            opacity: 1;
+        }
+
+        /* --- Lightbox --- */
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s, visibility 0.4s;
+        }
+        
+        .lightbox.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .lightbox img {
+            max-width: 85vw;
+            max-height: 85vh;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+        }
+
+    </style>
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="header-overlay"></div>
+        <div class="header-content">
+            <h1>The Poster Palace</h1>
+        </div>
+    </header>
+
+    <main>
+        <section id="Festival Gallery" class="gallery-section">
+            <h2>Main Gallery</h2>
+            <p class="gallery-instructions">Click and Drag to Explore</p>
+            <div class="poster-grid">
+                <div class="poster"><img src="./FestivalImages/QuantumFestival.png" alt="Quantum Festival"><div class="spotlight"></div></div>
+                <div class="poster"><img src="./FestivalImages/HarvestFest.png" alt="Harvest Fest"><div class="spotlight"></div></div>
+                <div class="poster"><img src="./FestivalImages/SolsticeGathering.png" alt="Festival Poster 3"><div class="spotlight"></div></div>
+            </div>
+        </section>
+
+        <section id="upper-loft" class="gallery-section">
+            <h2>Upper Loft Collection</h2>
+            <p class="gallery-instructions">Click and Drag to Explore</p>
+            <div class="poster-grid">
+                <div class="poster"><img src="./FestivalImages/ElectricTides.png" alt="Festival Poster 6"><div class="spotlight"></div></div>
+                <div class="poster"><img src="./FestivalImages/Desert Bloom.png" alt="Festival Poster 7"><div class="spotlight"></div></div>
+                <div class="poster"><img src="./FestivalImages/WoWFest.png" alt="Festival Poster 8"><div class="spotlight"></div></div>
+            </div>
+        </section>
+    </main>
+
+    <div class="lightbox" id="lightbox">
+        <img src="" alt="Enlarged poster">
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        // --- Draggable Galleries ---
+        const grids = document.querySelectorAll('.poster-grid');
+        grids.forEach(grid => {
+            let isDown = false;
+            let startX;
+            let scrollLeft;
+
+            grid.addEventListener('mousedown', (e) => {
+                isDown = true;
+                grid.classList.add('active');
+                startX = e.pageX - grid.offsetLeft;
+                scrollLeft = grid.scrollLeft;
+            });
+            grid.addEventListener('mouseleave', () => { isDown = false; });
+            grid.addEventListener('mouseup', () => { isDown = false; });
+            grid.addEventListener('mousemove', (e) => {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - grid.offsetLeft;
+                const walk = (x - startX) * 2; // The *2 makes it feel faster
+                grid.scrollLeft = scrollLeft - walk;
+            });
+        });
+
+        // --- 3D Spotlight Hover Effect ---
+        const posters = document.querySelectorAll('.poster');
+        posters.forEach(poster => {
+            const spotlight = poster.querySelector('.spotlight');
+            poster.addEventListener('mousemove', (e) => {
+                const rect = poster.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                // Move the spotlight
+                spotlight.style.background = `radial-gradient(circle at ${x}px ${y}px, transparent 80px, rgba(0,0,0,0.85) 200px)`;
+
+                // 3D tilt effect
+                const rotateY = (x - rect.width / 2) / 20; // Divide by a larger number for less tilt
+                const rotateX = (rect.height / 2 - y) / 20;
+                poster.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+            });
+
+            poster.addEventListener('mouseleave', () => {
+                poster.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
+            });
+        });
+
+        // --- Lightbox Functionality ---
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImage = lightbox.querySelector('img');
+        posters.forEach(poster => {
+            poster.addEventListener('click', () => {
+                const imgSrc = poster.querySelector('img').src;
+                lightboxImage.src = imgSrc;
+                lightbox.classList.add('show');
+            });
+        });
+        
+        // Close lightbox when clicking on the background
+        lightbox.addEventListener('click', (e) => {
+            if (e.target !== lightboxImage) {
+                lightbox.classList.remove('show');
+            }
+        });
+    });
+    </script>
+</body>
+</html>
+
+```
