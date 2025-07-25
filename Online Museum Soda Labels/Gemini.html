@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soda Label Museum</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            background-color: #f0f0f0;
+            color: #333;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+
+        header {
+            background-color: #e63946; /* Vibrant red */
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 100;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 3em;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        nav {
+            background-color: #1d3557; /* Dark blue */
+            padding: 10px 0;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 99;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            margin: 0 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        nav a:hover {
+            background-color: #457b9d; /* Lighter blue */
+        }
+
+        .museum-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            padding: 50px;
+            max-width: 1200px;
+            margin: 40px auto;
+            background-color: #fff;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        .gallery-item {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            text-align: center;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 250px; /* Fixed height for consistent look */
+            object-fit: contain; /* Ensure the whole label is visible */
+            display: block;
+            border-bottom: 1px solid #eee;
+            padding: 15px 0;
+        }
+
+        .item-info {
+            padding: 15px;
+            text-align: center;
+        }
+
+        .item-info h3 {
+            margin-top: 0;
+            color: #e63946;
+            font-size: 1.5em;
+        }
+
+        .item-info p {
+            font-size: 0.9em;
+            color: #555;
+            line-height: 1.4;
+        }
+
+        /* Modal for larger view */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 200; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0,0,0,0.8); /* Black w/ opacity */
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            margin: auto;
+            display: block;
+            max-width: 80%;
+            max-height: 80%;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .modal-content img {
+            width: auto;
+            max-width: 100%;
+            height: auto;
+            max-height: 70vh; /* Limit height relative to viewport */
+            display: block;
+            margin: 0 auto;
+        }
+
+        .modal-content h3 {
+            text-align: center;
+            color: #e63946;
+            margin-top: 15px;
+        }
+
+        .modal-content p {
+            text-align: center;
+            color: #555;
+            font-size: 1.1em;
+            margin-top: 10px;
+        }
+
+
+        .close-button {
+            color: #fff;
+            position: absolute;
+            top: 15px;
+            right: 25px;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
+            background-color: #e63946;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            line-height: 1; /* Adjust for vertical centering */
+        }
+
+        .close-button:hover,
+        .close-button:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        footer {
+            background-color: #1d3557;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 50px;
+            box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .museum-container {
+                grid-template-columns: 1fr;
+                padding: 20px;
+                margin: 20px auto;
+            }
+
+            header h1 {
+                font-size: 2em;
+            }
+
+            nav a {
+                display: block;
+                margin: 5px auto;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>The Fizz & Pop Archive</h1>
+        <p>A Journey Through Soda Label History</p>
+    </header>
+
+    <nav>
+        <a href="#past">Past Labels</a>
+        <a href="#present">Present Labels</a>
+        <a href="#about">About</a>
+    </nav>
+
+    <main class="museum-container">
+        <div class="gallery-item" data-title="Vintage Cola Co." data-description="A classic design from the early 20th century, featuring intricate typography and a subdued color palette. Represents the golden age of soda branding.">
+            <img src="placeholder1.jpg" alt="Vintage Cola Co. Label">
+            <div class="item-info">
+                <h3>Vintage Cola Co.</h3>
+                <p>Est. 1905</p>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-title="Sunset Sip Soda" data-description="Inspired by the vibrant hues of post-war advertising, this label embodies optimism and a bold, graphic approach. Popular in the 1950s.">
+            <img src="placeholder2.jpg" alt="Sunset Sip Soda Label">
+            <div class="item-info">
+                <h3>Sunset Sip Soda</h3>
+                <p>1950s Era</p>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-title="Lemon Fizz Delux" data-description="A psychedelic-inspired label from the late 60s, reflecting the counter-culture movement with its swirling patterns and vibrant, clashing colors.">
+            <img src="placeholder3.jpg" alt="Lemon Fizz Delux Label">
+            <div class="item-info">
+                <h3>Lemon Fizz Delux</h3>
+                <p>1960s Psychedelia</p>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-title="Cosmic Quencher" data-description="From the space-age fascination of the 1970s, this label features futuristic fonts and celestial motifs, promising out-of-this-world refreshment.">
+            <img src="placeholder4.jpg" alt="Cosmic Quencher Label">
+            <div class="item-info">
+                <h3>Cosmic Quencher</h3>
+                <p>1970s Sci-Fi</p>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-title="Radical Pop" data-description="An 80s icon, characterized by neon colors, geometric shapes, and a bold, energetic design that screamed 'awesome!' and 'gnarly!'.">
+            <img src="placeholder5.jpg" alt="Radical Pop Label">
+            <div class="item-info">
+                <h3>Radical Pop</h3>
+                <p>1980s Neon</p>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-title="Eco-Fizz Sparkling" data-description="A contemporary label emphasizing sustainability, with minimalist design, earthy tones, and clear messaging about natural ingredients and eco-friendly practices.">
+            <img src="placeholder6.jpg" alt="Eco-Fizz Sparkling Label">
+            <div class="item-info">
+                <h3>Eco-Fizz Sparkling</h3>
+                <p>Modern Eco-Conscious</p>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-title="Zenith Cola" data-description="Sleek and sophisticated, this modern label uses metallic accents and a refined typography to appeal to a premium, adult beverage market.">
+            <img src="placeholder7.jpg" alt="Zenith Cola Label">
+            <div class="item-info">
+                <h3>Zenith Cola</h3>
+                <p>Contemporary Premium</p>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-title="Flavor Burst Blast" data-description="A vibrant and playful label designed for a younger audience, using bright colors and energetic graphics to convey a fun, fruit-flavored experience.">
+            <img src="placeholder8.jpg" alt="Flavor Burst Blast Label">
+            <div class="item-info">
+                <h3>Flavor Burst Blast</h3>
+                <p>Youthful & Dynamic</p>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-title="Artisan Brew Soda" data-description="Reflecting the craft beverage trend, this label features hand-drawn elements, unique fonts, and a rustic aesthetic, highlighting small-batch production.">
+            <img src="placeholder9.jpg" alt="Artisan Brew Soda Label">
+            <div class="item-info">
+                <h3>Artisan Brew Soda</h3>
+                <p>Craft & Indie Style</p>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-title="Future Fuel Energy" data-description="A futuristic design for an energy drink, incorporating bold lines, electric colors, and abstract shapes to evoke power and innovation.">
+            <img src="placeholder10.jpg" alt="Future Fuel Energy Label">
+            <div class="item-info">
+                <h3>Future Fuel Energy</h3>
+                <p>Next-Gen Aesthetics</p>
+            </div>
+        </div>
+    </main>
+
+    <div id="myModal" class="modal">
+        <span class="close-button">&times;</span>
+        <div class="modal-content">
+            <img id="modalImage" src="" alt="">
+            <h3 id="modalTitle"></h3>
+            <p id="modalDescription"></p>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 The Fizz & Pop Archive. All rights reserved. (Conceptual Project)</p>
+    </footer>
+
+    <script>
+        // Get the modal
+        var modal = document.getElementById("myModal");
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close-button")[0];
+
+        // Get all gallery items
+        var galleryItems = document.querySelectorAll(".gallery-item");
+
+        // Loop through each gallery item and add the click event listener
+        galleryItems.forEach(function(item) {
+            item.addEventListener("click", function() {
+                var imgSrc = this.querySelector("img").src;
+                var title = this.getAttribute("data-title");
+                var description = this.getAttribute("data-description");
+
+                document.getElementById("modalImage").src = imgSrc;
+                document.getElementById("modalTitle").textContent = title;
+                document.getElementById("modalDescription").textContent = description;
+                modal.style.display = "flex"; // Use flex to center
+            });
+        });
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal content, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>

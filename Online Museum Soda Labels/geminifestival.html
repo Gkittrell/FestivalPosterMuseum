@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Poster Palace | Gallery</title>
+    <style>
+        /* --- Setup & Variables --- */
+        :root {
+            --bg-color: #f0e9e0; /* Was wall-color */
+            --header-bg: #2a231f; /* Was frame-color */
+            --frame-color: #2a231f;
+            --text-color: #333;
+            --header-text: #e8e3da;
+            --shadow-effect: rgba(0, 0, 0, 0.2);
+        }
+
+        body {
+            margin: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        /* --- Header --- */
+        .site-header {
+            background-color: var(--header-bg);
+            color: var(--header-text);
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 10px var(--shadow-effect);
+            border-bottom: 5px solid #c8a47e;
+        }
+
+        .site-header h1 {
+            margin: 0;
+            font-size: 3rem;
+            font-weight: 700;
+        }
+
+        .site-header p {
+            margin: 0.5rem 0 0;
+            font-size: 1.2rem;
+            opacity: 0.8;
+        }
+
+        /* --- Gallery Sections --- */
+        .gallery-section {
+            padding: 4rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .gallery-section h2 {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            border-bottom: 2px solid rgba(0,0,0,0.1);
+            padding-bottom: 1rem;
+        }
+
+        /* --- Poster Grid Layout --- */
+        .poster-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 3rem;
+        }
+        
+        /* --- Poster Styling --- */
+        .poster {
+            background: white;
+            border: 20px solid var(--frame-color);
+            padding: 10px;
+            box-shadow: 0 10px 30px -5px var(--shadow-effect);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            
+            /* Fade-in animation setup */
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .poster.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .poster:hover {
+            transform: scale(1.05);
+            box-shadow: 0 20px 40px -5px var(--shadow-effect);
+            z-index: 10;
+        }
+
+        .poster img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .poster-title {
+            margin: 15px 0 5px;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header class="site-header">
+        <h1>The Poster Palace</h1>
+        <p>A Curated Collection of Festival Art</p>
+    </header>
+
+    <main>
+        <section id="main-gallery" class="gallery-section">
+            <h2>Main Gallery</h2>
+            <div class="poster-grid">
+                <div class="poster">
+                    <img src="poster1.jpg" alt="Festival Poster 1">
+                    <p class="poster-title">Quantum Fields 2024</p>
+                </div>
+                <div class="poster">
+                    <img src="poster2.jpg" alt="Festival Poster 2">
+                    <p class="poster-title">Solstice Gathering</p>
+                </div>
+                <div class="poster">
+                    <img src="poster3.jpg" alt="Festival Poster 3">
+                    <p class="poster-title">Desert Bloom Fest</p>
+                </div>
+                <div class="poster">
+                    <img src="poster4.jpg" alt="Festival Poster 4">
+                    <p class="poster-title">Electric Tides</p>
+                </div>
+                 <div class="poster">
+                    <img src="poster5.jpg" alt="Festival Poster 5">
+                    <p class="poster-title">Urban Echoes</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="upper-loft" class="gallery-section">
+            <h2>Upper Loft Collection</h2>
+            <div class="poster-grid">
+                <div class="poster">
+                    <img src="poster6.jpg" alt="Festival Poster 6">
+                    <p class="poster-title">Mountain Frequencies</p>
+                </div>
+                <div class="poster">
+                    <img src="poster7.jpg" alt="Festival Poster 7">
+                    <p class="poster-title">Retro Rewind</p>
+                </div>
+                <div class="poster">
+                    <img src="poster8.jpg" alt="Festival Poster 8">
+                    <p class="poster-title">AquaVibe Festival</p>
+                </div>
+                <div class="poster">
+                    <img src="poster9.jpg" alt="Festival Poster 9">
+                    <p class="poster-title">Cosmic Drift</p>
+                </div>
+                <div class="poster">
+                    <img src="poster10.jpg" alt="Festival Poster 10">
+                    <p class="poster-title">The Neon Garden</p>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // This script makes posters fade in as you scroll to them.
+            const posters = document.querySelectorAll('.poster');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, {
+                threshold: 0.1 // Triggers when 10% of the item is visible
+            });
+
+            posters.forEach(poster => {
+                observer.observe(poster);
+            });
+        });
+    </script>
+
+</body>
+</html>
